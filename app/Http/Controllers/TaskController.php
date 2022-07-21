@@ -86,4 +86,47 @@ class TaskController extends Controller
             );
         }
     }
+
+    public function getTaskById($id)
+    {
+        try {
+            $userId = auth()->user()->id;
+
+            $task = Task::query()
+                ->where('id', '=', $id)
+                ->where('user_id', '=', $userId)
+                ->get()
+                ->toArray();
+
+            if (!$task) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => "Task doesnt exists"
+                    ],
+                    404
+                );
+            };
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => "Get by Task",
+                    'data' => $task
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+            Log::error("Error getting task: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => "Error getting tasks"
+                ],
+                500
+            );
+        }
+    }
 }
