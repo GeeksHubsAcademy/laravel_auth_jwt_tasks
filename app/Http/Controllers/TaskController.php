@@ -207,7 +207,7 @@ class TaskController extends Controller
 
     public function getUserByIdTask($id)
     {
-        try {
+        try {            
             $task = Task::query()->find($id);
 
             $user = $task->user;
