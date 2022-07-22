@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -64,7 +65,12 @@ class TaskController extends Controller
             Log::info("Getting all Tasks");
             $userId = auth()->user()->id;
 
-            $tasks = Task::query()->where('user_id',$userId)->get()->toArray();
+            // $tasks = Task::query()
+            //     ->where('user_id',$userId)
+            //     ->get()
+            //     ->toArray();
+
+            $tasks = User::query()->find($userId)->tasks;
 
             return response()->json(
                 [
