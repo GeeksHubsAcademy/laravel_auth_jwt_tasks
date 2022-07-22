@@ -28,6 +28,8 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::post('/tasks', [TaskController::class, 'createTask']);
     Route::get('/tasks', [TaskController::class, 'getAllTasks']); 
     Route::get('/tasks/{id}', [TaskController::class, 'getTaskById']);
+    Route::put('/tasks/{id}', [TaskController::class, 'updateTask']);
+
 });
 
 
