@@ -10,6 +10,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    const ROLE_USER = 1;
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -27,6 +29,8 @@ class AuthController extends Controller
             'email' => $request->get('email'),
             'password' => bcrypt($request->password)
         ]);
+
+        $user->roles()->attach(self::ROLE_USER);
 
         $token = JWTAuth::fromUser($user);
 
@@ -64,7 +68,7 @@ class AuthController extends Controller
 
         try {
             JWTAuth::invalidate($request->token);
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
